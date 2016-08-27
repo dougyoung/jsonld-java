@@ -1848,8 +1848,11 @@ public class JsonLdApi {
                 4);
         graphMap.put(JsonLdConsts.DEFAULT, defaultGraph);
 
+        List<String> graphNames = new ArrayList<String>(dataset.graphNames());
+        Collections.sort(graphNames, Collections.reverseOrder());
+
         // 3/3.1)
-        for (final String name : dataset.graphNames()) {
+        for (final String name : graphNames) {
 
             final List<RDFDataset.Quad> graph = dataset.getQuads(name);
 
@@ -1983,7 +1986,8 @@ public class JsonLdApi {
         final List<Object> result = new ArrayList<Object>(4);
         // 6)
         final List<String> ids = new ArrayList<String>(defaultGraph.keySet());
-        Collections.sort(ids);
+        // TODO: This defeats the inserted order, which may be useful
+        // Collections.sort(ids);
         for (final String subject : ids) {
             final NodeMapNode node = defaultGraph.get(subject);
             // 6.1)
